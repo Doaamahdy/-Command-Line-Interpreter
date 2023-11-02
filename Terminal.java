@@ -151,7 +151,7 @@ public class Terminal {
                     return;
                     
                     default:
-                    System.out.println("Command not found: " + commandName);
+                    System.out.println("Command not found: " + parser.commandName);
 
             }
         }
