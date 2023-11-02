@@ -132,6 +132,13 @@ public class Terminal {
                             cd(parser.getArgs()[0]);
                         }
                     }
+                    case "cp":
+                    if (parser.getArgs().length == 2) {
+                        cp(parser.getArgs()[0], parser.getArgs()[1]);
+                    } else {
+                        System.out.println("Invalid number of arguments.Usage: cp sourcefiledpath destinationfilepath. ex : cp java/am.tx jave/pm.txt ");
+                    }
+                    break;
                     case "Ls":
                     listCurrentDirectory();
                     break;
