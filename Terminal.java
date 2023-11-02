@@ -281,5 +281,59 @@ public class Terminal {
             e.printStackTrace();
         }
     }
+    public static void listCurrentDirectory() {
+        try {
+            String currentDirPath = System.getProperty("user.dir");
+            File currentDir = new File(currentDirPath);
+
+            if (!currentDir.isDirectory()) {
+                System.out.println("Current path is not a directory.");
+                return;
+            }
+
+            File[] files = currentDir.listFiles();
+
+            if (files == null) {
+                System.out.println("Error listing the current directory.");
+                return;
+            }
+
+            Arrays.sort(files);
+
+            for (File file : files) {
+                System.out.println(file.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error listing the current directory.");
+        }
+    }
+    public static void listCurrentDirectoryReversed() {
+        try {
+            String currentDirPath = System.getProperty("user.dir");
+            File currentDir = new File(currentDirPath);
+
+            if (!currentDir.isDirectory()) {
+                System.out.println("Current path is not a directory.");
+                return;
+            }
+
+            File[] files = currentDir.listFiles();
+
+            if (files == null) {
+                System.out.println("Error listing the current directory.");
+                return;
+            }
+
+            Arrays.sort(files, Collections.reverseOrder());
+
+            for (File file : files) {
+                System.out.println(file.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error listing the current directory.");
+        }
+    }
 
 }
