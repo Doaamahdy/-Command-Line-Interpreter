@@ -145,8 +145,12 @@ public class Terminal {
                 case "Ls-r":
                     listCurrentDirectoryReversed();
                     break;
+                    
                 case "exit":
                     return;
+                    
+                    default:
+                    System.out.println("Command not found: " + commandName);
 
             }
         }
