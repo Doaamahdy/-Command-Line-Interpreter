@@ -288,6 +288,18 @@ public class Terminal {
             e.printStackTrace();
         }
     }
+    public static void cp(String sourcePath, String destinationPath) {
+       File sourceFile = new File(sourcePath);
+       File destinationFile = new File(destinationPath);
+
+       try {
+           Files.copy(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+           System.out.println("File copied successfully.");
+       } catch (IOException e) {
+           e.printStackTrace();
+           System.err.println("An error occurred while copying the file.");
+       }
+   }
     public static void listCurrentDirectory() {
         try {
             String currentDirPath = System.getProperty("user.dir");
