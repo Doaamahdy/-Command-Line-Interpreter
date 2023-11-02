@@ -132,6 +132,12 @@ public class Terminal {
                             cd(parser.getArgs()[0]);
                         }
                     }
+                    case "Is":
+                    listCurrentDirectory();
+                    break;
+                case "Is-r":
+                    listCurrentDirectoryReversed();
+                    break;
                 case "exit":
                     return;
 
