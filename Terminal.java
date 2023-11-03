@@ -63,6 +63,15 @@ class Parser {
     public String getText() {
         return text;
     }
+    public boolean isFileName(String parameter) {
+        for(int i=parameter.length()-1;i>=0;i--)
+        {
+            if (parameter.charAt(i)== '\\') {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 public class Terminal {
@@ -73,13 +82,13 @@ public class Terminal {
         this.parser = new Parser();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Hello in our CLI");
         Terminal t = new Terminal();
         t.chooseCommandAction();
     }
 
-    public void chooseCommandAction() {
+    public void chooseCommandAction() throws IOException {
 
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -146,6 +155,21 @@ public class Terminal {
                     break;
                 case "Ls-r":
                     listCurrentDirectoryReversed();
+                    break;
+                case "rm":
+                    if (parser.getArgs().length == 1) {
+                        rm(parser.getArgs()[0]);
+                    }
+                    break;
+                case "Wc":
+                    if (parser.getArgs().length == 1) {
+                        Wc(parser.getArgs()[0]);
+                    }
+                    break;
+                case "touch":
+
+                    touch(parser.getText());
+
                     break;
                     
                 case "exit":
@@ -332,6 +356,73 @@ public class Terminal {
             e.printStackTrace();
             System.out.println("Error listing the current directory.");
         }
+    }
+    public void Wc(String filename) throws IOException {
+        if (parser.isFileName(filename)) {
+            File file = new File(filename);
+
+            try (Scanner input = new Scanner(file)) {
+                int wordCount = 0;
+                while (input.hasNext()) {
+                    String word = input.next();
+                    System.out.println(word);
+                    wordCount++;
+                }
+                System.out.println("Word count: " + wordCount);
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                String read;
+                int characterCount = 0;
+                int lineCount = 0;
+
+                while ((read = reader.readLine()) != null) {
+                    lineCount++;
+                    characterCount += read.length();
+                }
+
+                System.out.println("Character count: " + characterCount);
+                System.out.println("Line count: " + lineCount);
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+            }
+        } else {
+            System.out.print("There is no such file in the directory");
+        }
+    }
+    public void rm(String fileName) {
+        File file = new File(fileName);
+
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("File " + fileName + " deleted successfully.");
+            } else {
+                System.out.println("Failed to delete " + fileName);
+            }
+        } else {
+            System.out.println("File " + fileName + " does not exist.");
+        }
+    }
+    public void touch(String path) throws IOException
+    {
+
+
+        File file = new File(path);
+        boolean result;
+
+        try {
+            result = file.createNewFile();
+            if (result) {
+                System.out.println("File created at: " + file.getCanonicalPath());
+            } else {
+                System.out.println("File already exists at location: " + file.getCanonicalPath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     public static void listCurrentDirectoryReversed() {
         try {
